@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MessageSave" xml:space="preserve">
+    <value>Se registró correctamente.</value>
+  </data>
+  <data name="MessageUpdate" xml:space="preserve">
+    <value>Se actualizó correctamente.</value>
+  </data>
+  <data name="MessageDelete" xml:space="preserve">
+    <value>Se eliminó correctamente.</value>
+  </data>
+  <data name="MessageException" xml:space="preserve">
+    <value>Hubo un error inesperado, comunicarse con el administrador.</value>
+  </data>
+  <data name="MessageValidate" xml:space="preserve">
+    <value>Errores de validación.</value>
+  </data>
+  <data name="MessageQuery" xml:space="preserve">
+    <value>Consulta exitosa.</value>
+  </data>
+  <data name="MessageQueryEmpty" xml:space="preserve">
+    <value>No se encontraron registros.</value>
+  </data>
+  <data name="MessageDeleteConfirm" xml:space="preserve">
+    <value>La eliminación de este registro ya no está disponible, </value>
+  </data>
+  <data name="MessageEditConfirm" xml:space="preserve">
+    <value>La actualización de este registro ya no está disponible,  </value>
+  </data>
+  <data name="MessageActive" xml:space="preserve">
+    <value>Se activó correctamente.</value>
+  </data>
+  <data name="MessageInactive" xml:space="preserve">
+    <value>Se desactivó correctamente.</value>
+  </data>
+  <data name="MessageActiveAFP" xml:space="preserve">
+    <value>AFP activado correctamente.</value>
+  </data>
+  <data name="MessageInactiveAFP" xml:space="preserve">
+    <value>AFP desactivado correctamente.</value>
+  </data>
+  <data name="MessageExists" xml:space="preserve">
+    <value>El registro ya existe.</value>
+  </data>
+  <data name="MessageActivated" xml:space="preserve">
+    <value>El registro ha sido activado.</value>
+  </data>
+  <data name="MessageToken" xml:space="preserve">
+    <value>Token generado correctamente.</value>
+  </data>
+  <data name="MessageTokenError" xml:space="preserve">
+    <value>El usuario y/o contraseña es incorrecta, compruébala.</value>
+  </data>
+  <data name="MessageValidateValid" xml:space="preserve">
+    <value>Validación exitosa.</value>
+  </data>
+  <data name="MessageFailed" xml:space="preserve">
+    <value>Operación fallida.</value>
+  </data>
+  <data name="MessageGoogleError" xml:space="preserve">
+    <value>Su cuenta no se encuentra registrada en el sistema.</value>
+  </data>
+  <data name="MessageAuthTypeGoogle" xml:space="preserve">
+    <value>Por favor, ingrese con la opción de Google.</value>
+  </data>
+  <data name="MessageAuthType" xml:space="preserve">
+    <value>Su cuenta no se encuentra registrada en el sistema.</value>
+  </data>
+  <data name="MessageAuthInactive" xml:space="preserve">
+    <value>Su cuenta no tiene acceso comuniquese con el admistrador del sistema.</value>
+  </data>
+  <data name="MessageRegisterNotUnique" xml:space="preserve">
+    <value> ingresado ya está en uso. Por favor, elija un </value>
+  </data>
+  <data name="MessageValidateFileTypeImage" xml:space="preserve">
+    <value>El archivo no es una imagen válida.</value>
+  </data>
+  <data name="MessageValidateFileTypeFile" xml:space="preserve">
+    <value>Este archivo no es válido. </value>
+  </data>
+  <data name="MessageValidateFileSizeFile" xml:space="preserve">
+    <value>El archivo excede el tamaño máximo permitido.</value>
+  </data>
+  <data name="MessageChangePerfilAdminState" xml:space="preserve">
+    <value>No se puede cambiar el estado del Rol administrador.</value>
+  </data>
+  <data name="MessageInvalidTenant" xml:space="preserve">
+    <value>El dominio es inválido</value>
+  </data>
+  <data name="MessageDuplicatePriceHistory" xml:space="preserve">
+    <value>Ya existe un registro activo con el mismo tipo de precio, entidad y fecha.</value>
+  </data>
+  <data name="MessageDateValidPriceHistory" xml:space="preserve">
+    <value>La fecha de inicio debe ser posterior a la del historial activo actual.</value>
+  </data>
+  <data name="MessageInvalidPriceType" xml:space="preserve">
+    <value>Tipo de precio inválido.</value>
+  </data>
+  <data name="MessagePriceMustBePositive" xml:space="preserve">
+    <value>El precio debe ser mayor o igual a 0.</value>
+  </data>
+  <data name="MessageStartDateRequired" xml:space="preserve">
+    <value>La fecha de inicio es requerida.</value>
+  </data>
+  <data name="MessageAreaRequiredWhenPriceTypeIsArea" xml:space="preserve">
+    <value>El Área es requerida cuando el tipo de precio es Área.</value>
+  </data>
+  <data name="MessageAreaIdMustBeValid" xml:space="preserve">
+    <value>El ID del Área debe ser válido.</value>
+  </data>
+  <data name="MessageTypeStowageMustBeNullWhenPriceTypeIsArea" xml:space="preserve">
+    <value>El Tipo de Estiba debe ser nulo cuando el tipo de precio es Área.</value>
+  </data>
+  <data name="MessageTypeStowageRequiredWhenPriceTypeIsStowage" xml:space="preserve">
+    <value>El Tipo de Estiba es requerido cuando el tipo de precio es Estiba.</value>
+  </data>
+  <data name="MessageTypeStowageIdMustBeValid" xml:space="preserve">
+    <value>El ID del Tipo de Estiba debe ser válido.</value>
+  </data>
+  <data name="MessageAreaMustBeNullWhenPriceTypeIsStowage" xml:space="preserve">
+    <value>El Área debe ser nula cuando el tipo de precio es Estiba.</value>
+  </data>
+  <data name="Failed to get server preferences" xml:space="preserve">
+    <value>Hubo un error al obtener las preferencias del servidor</value>
+  </data>
+  <data name="Server Language has been changed" xml:space="preserve">
+    <value>El idioma del servidor ha cambiado.</value>
+  </data>
+</root>

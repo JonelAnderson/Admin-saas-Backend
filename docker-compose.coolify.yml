@@ -1,0 +1,136 @@
+# Consola de plataforma (SaaS del ERP + API SUNAT) — backend en Coolify (build pack "Docker Compose"). Runbook: deploy/README.md.
+#   Coolify: Base Directory "/"  ·  Docker Compose Location "/docker-compose.coolify.yml"
+# Servicios: db (PostgreSQL) -> migrate (migraciones) -> api -> menus (una vez por despliegue).
+# Sin "ports:" en la API: Coolify la publica por su proxy (Traefik) solo si se le asigna un dominio al servicio "api". La consola es
+# INTERNA: en Coolify / Traefik restringir el dominio por IP o VPN (docs: Docs/plataforma-consola-arquitectura.md §6).
+# Sin "${VAR:?}": Coolify compila con un .env que solo trae las variables marcadas para el build, y compose interpola todo
+# el archivo también al compilar, así que un secreto que (bien) no está en el build haría fallar la compilación. Las
+# obligatorias las exige quien las usa al arrancar: la API (JWT, conexión, certificado), Postgres (POSTGRES_PASSWORD).
+# Red compartida (PLATFORM_SHARED_NETWORK): el frontend de la consola llega a la API como http://platform-api:8080. QA y producción
+# en el mismo servidor: un nombre distinto.
+# Todos los nombres (volúmenes, variables) llevan el prefijo "platform": nunca comparten nada con el ERP del mismo servidor.
+
+x-db-env: &db-env
+  PGHOST: db
+  PGPORT: "5432"
+  PGDATABASE: ${POSTGRES_DB:-platform}
+  PGUSER: ${POSTGRES_USER:-platform}
+  PGPASSWORD: ${POSTGRES_PASSWORD}
+
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-platform}
+      POSTGRES_USER: ${POSTGRES_USER:-platform}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: America/Lima
+    volumes:
+      # Postgres 18 guarda los datos en /var/lib/postgresql/18/docker: el volumen va en /var/lib/postgresql (no en .../data).
+      - platform-db-data:/var/lib/postgresql
+      - platform-db-backups:/backups
+    # Solo en 127.0.0.1 del VPS, nunca a internet (DBeaver entra con un túnel SSH). Otro puerto que el ERP (5433).
+    ports:
+      - "127.0.0.1:${PLATFORM_DB_LOCAL_PORT:-5435}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  migrate:
+    build:
+      context: .
+      dockerfile: deploy/api.Dockerfile
+      target: migrator
+    environment: *db-env
+    command: ["migrate"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+    exclude_from_hc: true
+
+  api:
+    build:
+      context: .
+      dockerfile: deploy/api.Dockerfile
+      target: api
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=${POSTGRES_DB:-platform};Username=${POSTGRES_USER:-platform};Password=${POSTGRES_PASSWORD}"
+      AppConfiguration__Secret: ${JWT_SECRET}
+      AppConfiguration__ApplicationUrl: ${PLATFORM_PUBLIC_URL}
+      AppConfiguration__BehindSSLProxy: "true"
+      AppConfiguration__ProxyIP: ${PLATFORM_PROXY_NETWORK:-10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
+      # Solo si el frontend llama a la API desde otro dominio; con el frontend en el mismo dominio (/api) queda vacío.
+      Cors__AllowedOrigins__0: ${PLATFORM_CORS_ORIGIN:-}
+      Seed__InitialAdminPassword: ${PLATFORM_INITIAL_ADMIN_PASSWORD}
+      DataProtection__KeysPath: /app/dp-keys
+      # Certificado PROPIO de la consola (deploy/scripts/generate-dp-cert.sh), nunca el del ERP.
+      DataProtection__CertificateBase64: ${DP_CERT_BASE64}
+      DataProtection__CertificatePassword: ${DP_CERT_PASSWORD}
+      MailSettings__EmailFrom: ${MAIL_FROM:-}
+      MailSettings__DisplayName: ${MAIL_DISPLAY_NAME:-Consola de plataforma}
+      MailSettings__SmtpHost: ${MAIL_SMTP_HOST:-}
+      MailSettings__SmtpPort: ${MAIL_SMTP_PORT:-587}
+      MailSettings__SmtpUser: ${MAIL_SMTP_USER:-}
+      MailSettings__SmtpPass: ${MAIL_SMTP_PASS:-}
+      # API SUNAT (/api/admin/**). Sin dirección o sin clave, la integración queda apagada: las acciones remotas se reintentan.
+      # La clave es la misma ADMIN_SERVICE_KEY de la API SUNAT; esa API además debe listar la IP de la consola en ADMIN_SERVICE_ALLOWED_IPS.
+      ApiSunat__BaseUrl: ${API_SUNAT_URL:-}
+      ApiSunat__AdminKey: ${API_SUNAT_ADMIN_KEY:-}
+      # Dirección PÚBLICA (https) de la API SUNAT: la que la consola entrega al ERP junto con las credenciales de su empresa (fase C6b).
+      # Sin ella las entregas esperan y el ERP no recibe nada.
+      ApiSunat__PublicUrl: ${API_SUNAT_PUBLIC_URL:-}
+      # Llave privada Ed25519 (32 bytes en base64) con la que se firman las licencias del ERP. Secreto: solo aquí / user-secrets.
+      License__SigningKey: ${LICENSE_SIGNING_KEY:-}
+      # Aprovisionamiento de instancias del ERP en Coolify (fase C5). Sin estas variables la integración queda apagada: montar una
+      # instancia se rechaza con un mensaje claro y los despliegues pendientes esperan. El token es un secreto.
+      Coolify__BaseUrl: ${COOLIFY_URL:-}
+      Coolify__Token: ${COOLIFY_TOKEN:-}
+      Coolify__ProjectUuid: ${COOLIFY_PROJECT_UUID:-}
+      Coolify__ServerUuid: ${COOLIFY_SERVER_UUID:-}
+      Coolify__EnvironmentName: ${COOLIFY_ENVIRONMENT:-production}
+      Coolify__DestinationUuid: ${COOLIFY_DESTINATION_UUID:-}
+      Provisioning__BaseDomain: ${PROVISIONING_BASE_DOMAIN:-}
+      Provisioning__ImageRepository: ${PROVISIONING_IMAGE_REPO:-}
+      Provisioning__LicenseControlUrl: ${PROVISIONING_LICENSE_CONTROL_URL:-}
+      Provisioning__DefaultVersion: ${PROVISIONING_DEFAULT_VERSION:-}
+      Portal__PublicUrl: ${PORTAL_PUBLIC_URL:-}
+    volumes:
+      - platform-uploads:/app/wwwroot
+      - platform-dp-keys:/app/dp-keys
+      - platform-api-logs:/app/Logs
+    networks:
+      default:
+      platform-shared:
+        aliases: [platform-api]
+
+  menus:
+    build:
+      context: .
+      dockerfile: deploy/api.Dockerfile
+      target: migrator
+    environment: *db-env
+    command: ["menus"]
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: "no"
+    exclude_from_hc: true
+
+networks:
+  platform-shared:
+    name: ${PLATFORM_SHARED_NETWORK:-platform-prod}
+
+volumes:
+  platform-db-data:
+  platform-db-backups:
+  platform-uploads:
+  platform-dp-keys:
+  platform-api-logs:

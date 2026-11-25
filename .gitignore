@@ -1,0 +1,16 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+.idea
+.vs
+.DS_Store
+appsettings.Development.local.json
+**/nubefact.local.settings.json
+
+# Logs locales de Serilog (Logs/erp-*.log, Logs/Error, Logs/Info) y cualquier otro .log
+**/Logs/
+*.log
+# Certificado de Data Protection y su Base64 (deploy/scripts/generate-dp-cert.sh): nunca al repositorio.
+deploy/secrets/

@@ -1,0 +1,16 @@
+# Contexto de build de las imágenes (la raíz de este repositorio): solo el código y lo que usa deploy/.
+.git
+**/bin
+**/obj
+**/.vs
+**/.vscode
+**/*.user
+**/Logs
+**/TestResults
+# Archivos subidos en desarrollo: nunca dentro de la imagen (en el servidor son un volumen).
+DS.Platform.WebApi/wwwroot/
+# Configuración local con secretos.
+**/appsettings.Development.local.json
+**/nubefact.local.settings.json
+# Certificado de Data Protection y su Base64 (deploy/scripts/generate-dp-cert.sh).
+deploy/secrets/
