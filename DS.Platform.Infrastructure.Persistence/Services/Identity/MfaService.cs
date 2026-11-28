@@ -16,7 +16,8 @@ namespace DS.Platform.Infrastructure.Services.Identity
     /// </summary>
     public class MfaService : IMfaService
     {
-        public const string Issuer = "DS.Platform";
+        /// <summary>Nombre que muestra la app autenticadora (Google / Microsoft Authenticator…).</summary>
+        public const string Issuer = "Admin SaaS";
         public const int RecoveryCodeCount = 10;
 
         private readonly UserManager<AdmUser> _userManager;
