@@ -129,7 +129,7 @@ namespace DS.Platform.Tests.Identity
             Assert.True(setup.Succeeded);
             Assert.Matches("^([A-Z2-7]{4} )+[A-Z2-7]{1,4}$", setup.Data.SharedKey);
             var rawKey = setup.Data.SharedKey.Replace(" ", "");
-            Assert.Equal($"otpauth://totp/DS.Platform:ana?secret={rawKey}&issuer=DS.Platform&digits=6&period=30", setup.Data.AuthenticatorUri);
+            Assert.Equal($"otpauth://totp/Admin%20SaaS:ana?secret={rawKey}&issuer=Admin%20SaaS&digits=6&period=30", setup.Data.AuthenticatorUri);
 
             var again = await SetupAsync(login.Data.MfaTicket!);
             Assert.NotEqual(setup.Data.SharedKey, again.Data.SharedKey);
